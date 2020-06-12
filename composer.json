@@ -15,6 +15,7 @@
         "symfony/maker-bundle": "^1.19",
         "symfony/orm-pack": "^1.0",
         "symfony/profiler-pack": "^1.0",
+        "symfony/security-bundle": "4.4.*",
         "symfony/twig-pack": "^1.0",
         "symfony/var-dumper": "4.4.*",
         "symfony/yaml": "4.4.*"
