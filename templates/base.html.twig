@@ -2,11 +2,16 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}URL Checker{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+        <script src="{{ asset('js/plugins.min.js') }}"></script>
+        <script src="{{ asset('js/app.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

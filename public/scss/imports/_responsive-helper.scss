@@ -1,0 +1,40 @@
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$vlg: 1200px;
+
+
+@mixin xs {
+  @media (max-width: #{$sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: #{$sm}) and (max-width: #{$md - 1px}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$md}) and (max-width: #{$lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$lg}) and (max-width: #{$vlg - 1px}) {
+    @content;
+  }
+}
+@mixin vlg {
+  @media (min-width: #{$vlg}) {
+    @content;
+  }
+}
+
+@mixin responsiveTransition($time : 0.3s,$property : all,$ease: ease-in) {
+  @include transition-property($property);
+  @include transition-duration($time);
+  @include transition-timing-function($ease);
+}
