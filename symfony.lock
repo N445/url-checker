@@ -1,6 +1,6 @@
 {
     "php": {
-        "version": "7.4"
+        "version": "7.1.33"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -41,6 +41,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.3.11"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.10"
     },
     "symfony/event-dispatcher": {
         "version": "v4.3.11"
@@ -106,6 +109,9 @@
     "symfony/polyfill-php73": {
         "version": "v1.17.0"
     },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.0"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -122,6 +128,9 @@
     },
     "symfony/service-contracts": {
         "version": "v1.1.8"
+    },
+    "symfony/var-dumper": {
+        "version": "v4.4.10"
     },
     "symfony/var-exporter": {
         "version": "v4.3.11"
