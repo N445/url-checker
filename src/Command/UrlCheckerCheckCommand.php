@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Service\Checker\UrlChecker;
+use App\Service\Sender\RapportSender;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,14 +19,21 @@ class UrlCheckerCheckCommand extends Command
     private $urlChecker;
 
     /**
-     * UrlCheckerCheckCommand constructor.
-     * @param string|null $name
-     * @param UrlChecker  $urlChecker
+     * @var RapportSender
      */
-    public function __construct(string $name = null, UrlChecker $urlChecker)
+    private $rapportSender;
+
+    /**
+     * UrlCheckerCheckCommand constructor.
+     * @param string|null   $name
+     * @param UrlChecker    $urlChecker
+     * @param RapportSender $rapportSender
+     */
+    public function __construct(string $name = null, UrlChecker $urlChecker, RapportSender $rapportSender)
     {
         parent::__construct($name);
-        $this->urlChecker = $urlChecker;
+        $this->urlChecker    = $urlChecker;
+        $this->rapportSender = $rapportSender;
     }
 
     protected function configure()
@@ -38,6 +46,7 @@ class UrlCheckerCheckCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $this->urlChecker->run();
+        $this->rapportSender->sendRapport();
 
         $io->success('Ok.');
 

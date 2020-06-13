@@ -19,6 +19,11 @@ class RapportRepository extends ServiceEntityRepository
         parent::__construct($registry, Rapport::class);
     }
 
+    /**
+     * @param Rapport   $rapport
+     * @param \DateTime $limit
+     * @return Rapport[]
+     */
     public function getLastSameRapport(Rapport $rapport, \DateTime $limit)
     {
         return $this->createQueryBuilder('r')
@@ -30,6 +35,21 @@ class RapportRepository extends ServiceEntityRepository
                     ->andWhere('r.errorCode = :errorCode')
                     ->setParameter('errorCode', $rapport->getErrorCode())
                     ->leftJoin('r.url', 'url')
+                    ->getQuery()
+                    ->getResult()
+            ;
+    }
+
+    /**
+     * @return Rapport[]
+     */
+    public function getUnsendRapport()
+    {
+        return $this->createQueryBuilder('r')
+                    ->addSelect('site', 'url')
+                    ->andWhere('r.isSend = false')
+                    ->leftJoin('r.url', 'url')
+                    ->leftJoin('url.site', 'site')
                     ->getQuery()
                     ->getResult()
             ;

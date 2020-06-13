@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e77acc2eabe84173f5771eaa6f8c7ca",
+    "content-hash": "7abfe0f03b8dee6104485f836d277eac",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1680,6 +1680,52 @@
                 }
             ],
             "time": "2020-05-22T07:31:27+00:00"
+        },
+        {
+            "name": "n445/easydiscord",
+            "version": "1.6.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/N445/easydiscord.git",
+                "reference": "c5535995c7e032c2d1ffdcf231815668bf0304fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/N445/easydiscord/zipball/c5535995c7e032c2d1ffdcf231815668bf0304fe",
+                "reference": "c5535995c7e032c2d1ffdcf231815668bf0304fe",
+                "shasum": ""
+            },
+            "require": {
+                "eightpoints/guzzle-bundle": "^8.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "N445\\EasyDiscord\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "N445",
+                    "email": "parisrob@hotmail.fr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easy Discord",
+            "keywords": [
+                "N445",
+                "discord"
+            ],
+            "time": "2020-06-03T20:04:13+00:00"
         },
         {
             "name": "nikic/php-parser",

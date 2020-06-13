@@ -132,6 +132,9 @@
     "monolog/monolog": {
         "version": "1.25.4"
     },
+    "n445/easydiscord": {
+        "version": "1.6.6"
+    },
     "nikic/php-parser": {
         "version": "v4.5.0"
     },
