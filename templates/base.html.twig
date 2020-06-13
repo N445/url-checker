@@ -12,6 +12,7 @@
             {% block body %}{% endblock %}
         </div>
         <script src="{{ asset('js/plugins.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         <script src="{{ asset('js/app.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>

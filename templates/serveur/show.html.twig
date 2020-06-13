@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serveur{% endblock %}
+
+{% block body %}
+    <h1>Serveur</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ serveur.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ serveur.name }}</td>
+        </tr>
+        <tr>
+            <th>Ip</th>
+            <td>{{ serveur.ip }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <a href="{{ path('SERVEUR_INDEX') }}" class="btn btn-primary">Retour</a>
+    </p>
+
+    <p>
+        <a href="{{ path('SERVEUR_EDIT', {'id': serveur.id}) }}" class="btn btn-success">Modifier</a>
+    </p>
+
+    {{ include('serveur/_delete_form.html.twig') }}
+{% endblock %}

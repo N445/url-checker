@@ -8,17 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class AdminController
  * @package App\Controller
- * @Route("/admin")
+ * @Route("/")
  */
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/", name="ADMIN")
+     * @Route("/", name="ADMIN_DASHBOARD")
      */
     public function index()
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
+        return $this->render('admin/dashboard.html.twig', []);
     }
 }

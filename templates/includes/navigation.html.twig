@@ -1,30 +1,37 @@
+{% if pageGroup is not defined %}
+    {% set pageGroup = 'nc' %}
+{% endif %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-<div class="container">
-    <a class="navbar-brand" href="#">URL Checker</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-            {% endif %}
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item active">
+    <div class="container">
+        <a class="navbar-brand" href="#">URL Checker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">
-                        Déonnexion
-                    </a>
-                {% else %}
-                    <a class="btn btn-outline-success" href="{{ path('app_login') }}">
-                        Connexion
-                    </a>
+                <li class="nav-item{% if pageGroup == 'serveur' %} active{% endif %}">
+                    <a class="nav-link" href="{{ path('SERVEUR_INDEX') }}">Serveurs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sites</a>
+                </li>
                 {% endif %}
-            </li>
-        </ul>
-    </div>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">
+                            Déonnexion
+                        </a>
+                    {% else %}
+                        <a class="btn btn-outline-success" href="{{ path('app_login') }}">
+                            Connexion
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
 </div>
 </nav>

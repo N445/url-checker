@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition du serveur{% endblock %}
+
+{% block body %}
+    <h1>Edition du serveur</h1>
+
+    {{ include('serveur/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('SERVEUR_INDEX') }}" class="btn btn-primary">Retour</a>
+
+    {{ include('serveur/_delete_form.html.twig') }}
+{% endblock %}

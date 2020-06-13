@@ -33,8 +33,6 @@ module.exports = function (grunt) {
                         'node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js',
                         'node_modules/noty/lib/noty.min.js',
                         'vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js',
-                        'node_modules/highlight.js/lib/highlight.js',
-                        'front-lib/highlight.js/json.min.js',
                     ]
                 }
             },
@@ -45,26 +43,6 @@ module.exports = function (grunt) {
                 },
                 compress: true
             },
-            admin: {
-                files: {
-                    'public/js/admin.min.js':
-                        [
-                            'front-lib/redactor3/redactor.min.js',
-                            'front-lib/redactor3/plugins/alignment.min.js',
-                            'front-lib/redactor3/plugins/counter.min.js',
-                            'front-lib/redactor3/plugins/fontcolor.min.js',
-                            'front-lib/redactor3/plugins/fontfamily.min.js',
-                            'front-lib/redactor3/plugins/fontsize.min.js',
-                            'front-lib/redactor3/plugins/inlinestyle.min.js',
-                            'front-lib/redactor3/plugins/properties.min.js',
-                            'front-lib/redactor3/plugins/specialchars.min.js',
-                            'front-lib/redactor3/plugins/table.min.js',
-                            'front-lib/redactor3/plugins/video.min.js',
-                            'public/js/admin.js',
-                        ]
-                },
-                compress: true
-            }
         },
         sass: {
             dist: {
