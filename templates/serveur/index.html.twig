@@ -12,6 +12,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Ip</th>
+                <th>Nb sites</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ serveur.name }}</td>
                 <td>{{ serveur.ip }}</td>
+                <td>{{ serveur.sites|length }}</td>
                 <td>
                     <a href="{{ path('SERVEUR_SHOW', {'id': serveur.id}) }}" class="btn btn-sm btn-info">Voir</a>
                     <a href="{{ path('SERVEUR_EDIT', {'id': serveur.id}) }}" class="btn btn-sm btn-info">Modifier</a>

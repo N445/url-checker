@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition du site{% endblock %}
+
+{% block body %}
+    <h1>Edition du site</h1>
+
+    {{ include('site/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('SITE_INDEX') }}" class="btn btn-primary">Retour</a>
+
+    {{ include('site/_delete_form.html.twig') }}
+{% endblock %}

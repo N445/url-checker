@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des sites{% endblock %}
+
+{% block body %}
+    <h1>Liste des sites</h1>
+    <p>
+        <a href="{{ path('SITE_NEW') }}" class="btn btn-primary">Nouveau</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Domaine</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for site in sites %}
+            <tr>
+                <td>{{ site.name }}</td>
+                <td>{{ site.domain }}</td>
+                <td>
+                    <a href="{{ path('SITE_SHOW', {'id': site.id}) }}" class="btn btn-sm btn-info">Voir</a>
+                    <a href="{{ path('SITE_EDIT', {'id': site.id}) }}" class="btn btn-sm btn-info">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <a href="{{ path('SITE_NEW') }}" class="btn btn-primary">Nouveau</a>
+    </p>
+{% endblock %}

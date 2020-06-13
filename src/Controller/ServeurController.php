@@ -65,7 +65,7 @@ class ServeurController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="SERVEUR_EDIT", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="SERVEUR_EDIT", methods={"GET","POST"})
      */
     public function edit(Request $request, Serveur $serveur): Response
     {

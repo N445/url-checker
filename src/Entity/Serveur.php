@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServeurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,16 +29,47 @@ class Serveur
      */
     private $ip;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Site::class, mappedBy="serveur")
+     */
+    private $sites;
+
+    /**
+     * Serveur constructor.
+     */
+    public function __construct()
+    {
+        $this->sites = new ArrayCollection();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return sprintf('%s (%s)', $this->getName(), $this->getIp());
+    }
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -44,14 +77,60 @@ class Serveur
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getIp(): ?string
     {
         return $this->ip;
     }
 
+    /**
+     * @param string $ip
+     * @return $this
+     */
     public function setIp(string $ip): self
     {
         $this->ip = $ip;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Site[]
+     */
+    public function getSites(): Collection
+    {
+        return $this->sites;
+    }
+
+    /**
+     * @param Site $site
+     * @return $this
+     */
+    public function addSite(Site $site): self
+    {
+        if (!$this->sites->contains($site)) {
+            $this->sites[] = $site;
+            $site->setServeur($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Site $site
+     * @return $this
+     */
+    public function removeSite(Site $site): self
+    {
+        if ($this->sites->contains($site)) {
+            $this->sites->removeElement($site);
+            // set the owning side to null (unless already changed)
+            if ($site->getServeur() === $this) {
+                $site->setServeur(null);
+            }
+        }
 
         return $this;
     }

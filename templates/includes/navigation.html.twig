@@ -14,8 +14,8 @@
                 <li class="nav-item{% if pageGroup == 'serveur' %} active{% endif %}">
                     <a class="nav-link" href="{{ path('SERVEUR_INDEX') }}">Serveurs</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sites</a>
+                <li class="nav-item{% if pageGroup == 'site' %} active{% endif %}">
+                    <a class="nav-link" href="{{ path('SITE_INDEX') }}">Sites</a>
                 </li>
                 {% endif %}
             </ul>
