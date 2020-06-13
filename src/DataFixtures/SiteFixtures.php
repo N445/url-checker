@@ -12,7 +12,7 @@ use Faker\Generator;
 class SiteFixtures extends Fixture
 {
     const REFERENCE = 'site-%s';
-    const LOOP      = 20;
+    const LOOP      = 1;
 
     /**
      * @var Generator
@@ -26,7 +26,7 @@ class SiteFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-
+        $manager->persist($this->getOzangesSite());
         for ($i = 1; $i <= self::LOOP; $i++) {
             $site = (new Site())
                 ->setName($this->faker->realText(40))
@@ -41,9 +41,19 @@ class SiteFixtures extends Fixture
         $manager->flush();
     }
 
+    private function getOzangesSite()
+    {
+        return  (new Site())
+            ->setName('Ozanges')
+            ->setDomain('ozanges.fr')
+            ->setServeur($this->getReference(sprintf(ServeurFixtures::REFERENCE, rand(1, ServeurFixtures::LOOP))))
+            ->addUrl((new Url())->setUrl('/agence-web-communication'))
+        ;
+    }
+
     private function setUrls(Site &$site)
     {
-        foreach (range(1, rand(3, 6)) as $i) {
+        foreach (range(1, rand(1, 2)) as $i) {
             $url = (new Url())->setUrl($this->faker->slug())
                               ->setCode($this->faker->randomElement([200, 302]))
             ;

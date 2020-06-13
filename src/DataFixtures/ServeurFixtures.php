@@ -10,7 +10,7 @@ use Faker\Factory;
 class ServeurFixtures extends Fixture
 {
     const REFERENCE = 'server-%s';
-    const LOOP      = 5;
+    const LOOP      = 2;
 
     public function load(ObjectManager $manager)
     {

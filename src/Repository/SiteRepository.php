@@ -38,6 +38,20 @@ class SiteRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Site[]
+     */
+    public function getAll()
+    {
+        return $this->createQueryBuilder('s')
+                    ->addSelect('serveur', 'urls')
+                    ->leftJoin('s.serveur', 'serveur')
+                    ->leftJoin('s.urls', 'urls')
+                    ->getQuery()
+                    ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Site[] Returns an array of Site objects
     //  */

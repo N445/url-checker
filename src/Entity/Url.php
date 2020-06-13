@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UrlRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,11 +35,17 @@ class Url
     private $site;
 
     /**
+     * @ORM\OneToMany(targetEntity=Rapport::class, mappedBy="url")
+     */
+    private $rapports;
+
+    /**
      * Url constructor.
      */
     public function __construct()
     {
         $this->code = 200;
+        $this->rapports = new ArrayCollection();
     }
 
     /**
@@ -109,6 +117,37 @@ class Url
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rapport[]
+     */
+    public function getRapports(): Collection
+    {
+        return $this->rapports;
+    }
+
+    public function addRapport(Rapport $rapport): self
+    {
+        if (!$this->rapports->contains($rapport)) {
+            $this->rapports[] = $rapport;
+            $rapport->setUrl($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRapport(Rapport $rapport): self
+    {
+        if ($this->rapports->contains($rapport)) {
+            $this->rapports->removeElement($rapport);
+            // set the owning side to null (unless already changed)
+            if ($rapport->getUrl() === $this) {
+                $rapport->setUrl(null);
+            }
+        }
 
         return $this;
     }

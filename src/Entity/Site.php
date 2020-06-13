@@ -52,6 +52,7 @@ class Site
     {
         $this->urls      = new ArrayCollection();
         $this->createdAt = new \DateTime("NOW");
+        $this->addUrl((new Url())->setUrl('/'));
     }
 
     /**
