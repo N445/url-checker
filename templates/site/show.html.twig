@@ -17,7 +17,13 @@
             </tr>
             <tr>
                 <th>Url</th>
-                <td>{{ site.url }}</td>
+                <td>
+                    <ul>
+                        {% for url in site.urls %}
+                            <li>{{ url.url }} ({{ url.code }})</li>
+                        {% endfor %}
+                    </ul>
+                </td>
             </tr>
         </tbody>
     </table>

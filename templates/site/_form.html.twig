@@ -1,4 +1,38 @@
-{{ form_start(form) }}
+{% import _self as formMacros %}
+{% macro actionRow(actionForm) %}
+    <div class="url-item">
+        {{ form_errors(actionForm) }}
+        <div class="d-flex align-items-end">
+            <div class="pr-2">
+                {{ form_row(actionForm.url) }}
+            </div>
+            <div>
+                {{ form_row(actionForm.code) }}
+            </div>
+            <div class="p-2 mb-2">
+                <button type="button" class="btn btn-danger btn-action-remove">
+                    <i class="far fa-times-circle"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+<div class="mb-5">
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.domain) }}
+    {{ form_row(form.serveur) }}
+
+    <div class="urls"
+         data-prototype="{{ formMacros.actionRow(form.urls.vars.prototype)|e('html_attr') }}">
+        {% for action in form.urls %}
+            {{ formMacros.actionRow(action) }}
+        {% endfor %}
+    </div>
     {{ form_widget(form) }}
     <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
-{{ form_end(form) }}
+    {{ form_end(form) }}
+
+</div>

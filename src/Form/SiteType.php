@@ -6,6 +6,7 @@ use App\Entity\Serveur;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,6 +24,16 @@ class SiteType extends AbstractType
             ])
             ->add('serveur', EntityType::class, [
                 'class' => Serveur::class,
+            ])
+            ->add('urls', CollectionType::class, [
+                'entry_type'    => UrlType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'entry_options' => [
+                    'attr' => ['class' => 'url-box'],
+                ],
             ])
         ;
     }

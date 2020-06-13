@@ -37,6 +37,11 @@ class Url
         $this->code = 200;
     }
 
+    public function __toString()
+    {
+        return sprintf('%s (%s)', $this->getUrl(), $this->getCode());
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Site
 {
@@ -35,7 +36,7 @@ class Site
     private $serveur;
 
     /**
-     * @ORM\OneToMany(targetEntity=Url::class, mappedBy="site", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Url::class, mappedBy="site", cascade={"persist","remove"})
      */
     private $urls;
 
@@ -44,22 +45,35 @@ class Site
      */
     private $createdAt;
 
+    /**
+     * Site constructor.
+     */
     public function __construct()
     {
         $this->urls      = new ArrayCollection();
         $this->createdAt = new \DateTime("NOW");
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -67,11 +81,18 @@ class Site
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDomain(): ?string
     {
         return $this->domain;
     }
 
+    /**
+     * @param string $domain
+     * @return $this
+     */
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
@@ -79,11 +100,18 @@ class Site
         return $this;
     }
 
+    /**
+     * @return Serveur|null
+     */
     public function getServeur(): ?Serveur
     {
         return $this->serveur;
     }
 
+    /**
+     * @param Serveur|null $serveur
+     * @return $this
+     */
     public function setServeur(?Serveur $serveur): self
     {
         $this->serveur = $serveur;
@@ -99,6 +127,10 @@ class Site
         return $this->urls;
     }
 
+    /**
+     * @param Url $url
+     * @return $this
+     */
     public function addUrl(Url $url): self
     {
         if (!$this->urls->contains($url)) {
@@ -109,6 +141,10 @@ class Site
         return $this;
     }
 
+    /**
+     * @param Url $url
+     * @return $this
+     */
     public function removeUrl(Url $url): self
     {
         if ($this->urls->contains($url)) {
@@ -122,11 +158,18 @@ class Site
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return $this
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
