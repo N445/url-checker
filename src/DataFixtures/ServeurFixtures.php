@@ -19,6 +19,7 @@ class ServeurFixtures extends Fixture
             $server = (new Serveur())
                 ->setName($faker->realText(40))
                 ->setIp($faker->ipv4)
+                ->setCreatedAt($faker->dateTimeBetween('-30 days', '+30 days'))
             ;
             $manager->persist($server);
             $this->addReference(sprintf(self::REFERENCE, $i), $server);

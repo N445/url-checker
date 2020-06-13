@@ -12,6 +12,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Domaine</th>
+                <th>Nb urls</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ site.name }}</td>
                 <td>{{ site.domain }}</td>
+                <td>{{ site.urls|length }}</td>
                 <td>
                     <a href="{{ path('SITE_SHOW', {'id': site.id}) }}" class="btn btn-sm btn-info">Voir</a>
                     <a href="{{ path('SITE_EDIT', {'id': site.id}) }}" class="btn btn-sm btn-info">Modifier</a>

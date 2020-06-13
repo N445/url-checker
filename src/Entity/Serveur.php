@@ -35,11 +35,17 @@ class Serveur
     private $sites;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
      * Serveur constructor.
      */
     public function __construct()
     {
         $this->sites = new ArrayCollection();
+        $this->createdAt = new \DateTime("NOW");
     }
 
     /**
@@ -131,6 +137,18 @@ class Serveur
                 $site->setServeur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

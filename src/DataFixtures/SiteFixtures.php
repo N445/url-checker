@@ -3,27 +3,51 @@
 namespace App\DataFixtures;
 
 use App\Entity\Site;
+use App\Entity\Url;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Faker\Generator;
 
 class SiteFixtures extends Fixture
 {
     const REFERENCE = 'site-%s';
     const LOOP      = 20;
 
+    /**
+     * @var Generator
+     */
+    private $faker;
+
+    public function __construct()
+    {
+        $this->faker = Factory::create('fr_FR');
+    }
+
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+
         for ($i = 1; $i <= self::LOOP; $i++) {
             $site = (new Site())
-                ->setName($faker->realText(40))
-                ->setDomain($faker->domainName)
+                ->setName($this->faker->realText(40))
+                ->setDomain($this->faker->domainName)
                 ->setServeur($this->getReference(sprintf(ServeurFixtures::REFERENCE, rand(1, ServeurFixtures::LOOP))))
+                ->setCreatedAt($this->faker->dateTimeBetween('-30 days', '+30 days'))
             ;
+            $this->setUrls($site);
             $manager->persist($site);
             $this->addReference(sprintf(self::REFERENCE, $i), $site);
         }
         $manager->flush();
+    }
+
+    private function setUrls(Site &$site)
+    {
+        foreach (range(1, rand(3, 6)) as $i) {
+            $url = (new Url())->setUrl($this->faker->slug())
+                              ->setCode($this->faker->randomElement([200, 302]))
+            ;
+            $site->addUrl($url);
+        }
     }
 }
