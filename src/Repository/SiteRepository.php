@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,11 @@ class SiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Site::class);
     }
 
+    /**
+     * @param int $id
+     * @return Site|null
+     * @throws NonUniqueResultException
+     */
     public function getSiteById(int $id)
     {
         return $this->createQueryBuilder('s')

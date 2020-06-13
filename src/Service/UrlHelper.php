@@ -18,12 +18,19 @@ class UrlHelper
      */
     private $em;
 
+    /**
+     * UrlHelper constructor.
+     * @param EntityManagerInterface $em
+     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->oldUrls = new ArrayCollection();
         $this->em      = $em;
     }
 
+    /**
+     * @param Site $site
+     */
     public function setOldUrls(Site $site)
     {
         foreach ($site->getUrls() as $url) {
@@ -31,11 +38,17 @@ class UrlHelper
         }
     }
 
+    /**
+     * @param Site $site
+     */
     public function checkData(Site $site)
     {
         $this->checkRemoved($site);
     }
 
+    /**
+     * @param Site $site
+     */
     private function checkRemoved(Site $site)
     {
         foreach ($this->oldUrls as $url) {
