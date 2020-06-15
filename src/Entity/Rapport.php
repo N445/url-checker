@@ -23,7 +23,7 @@ class Rapport
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="integer", length=20)
      */
     private $errorCode;
 
@@ -46,6 +46,16 @@ class Rapport
      * @ORM\Column(type="boolean")
      */
     private $isSend;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $error_message;
+
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $sendAt;
 
     /**
      * Rapport constructor.
@@ -174,6 +184,43 @@ class Rapport
     {
         $this->isSend = $isSend;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getErrorMessage()
+    {
+        return $this->error_message;
+    }
+
+    /**
+     * @param mixed $error_message
+     * @return Rapport
+     */
+    public function setErrorMessage($error_message)
+    {
+        $this->error_message = $error_message;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getSendAt()
+    {
+        return $this->sendAt;
+    }
+
+
+    /**
+     * @param \DateTime|null $sendAt
+     * @return $this
+     */
+    public function setSendAt(?\DateTime $sendAt)
+    {
+        $this->sendAt = $sendAt;
         return $this;
     }
 }

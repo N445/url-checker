@@ -65,13 +65,14 @@ class RapportCreator
         $this->response        = $response;
         $this->responseTime    = $responseTime;
         $this->guzzleException = $guzzleException;
-        if (($code = $this->getErrorCode()) === ErrorLevel::NO_ERROR) {
+        if (($code = $this->getErrorCode()) === ErrorLevel::NO_ERROR_CODE) {
             return;
         }
 
         $rapport = (new Rapport())
             ->setUrl($url)
             ->setErrorCode($code)
+            ->setErrorMessage(ErrorLevel::getErrorMessage($code))
             ->setResponseTime($this->responseTime)
         ;
 
@@ -87,14 +88,14 @@ class RapportCreator
     private function getErrorCode()
     {
         if ($this->guzzleException) {
-            return ErrorLevel::NO_RESPONSE;
+            return ErrorLevel::NO_RESPONSE_CODE;
         }
         if ($this->url->getCode() != $this->response->getStatusCode()) {
-            return ErrorLevel::BAD_CODE;
+            return ErrorLevel::BAD_CODE_CODE;
         }
         if ($this->responseTime > self::LIMIT_RESPONSE_TIME) {
-            return ErrorLevel::RESPONSE_TIME;
+            return ErrorLevel::RESPONSE_TIME_CODE;
         }
-        return ErrorLevel::NO_ERROR;
+        return ErrorLevel::NO_ERROR_CODE;
     }
 }
