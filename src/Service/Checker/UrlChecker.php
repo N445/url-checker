@@ -16,11 +16,6 @@ class UrlChecker
     private $sites;
 
     /**
-     * @var SiteRepository
-     */
-    private $siteRepository;
-
-    /**
      * @var RapportCreator
      */
     private $rapportCreator;
@@ -36,7 +31,6 @@ class UrlChecker
     )
     {
         $this->sites          = $siteRepository->getAll();
-        $this->siteRepository = $siteRepository;
         $this->rapportCreator = $rapportCreator;
     }
 

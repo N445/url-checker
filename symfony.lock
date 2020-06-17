@@ -129,6 +129,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "league/csv": {
+        "version": "9.5.0"
+    },
     "monolog/monolog": {
         "version": "1.25.4"
     },
