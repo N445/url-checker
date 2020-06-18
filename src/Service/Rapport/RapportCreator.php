@@ -77,6 +77,7 @@ class RapportCreator
         ;
 
         // vérifie si un rapport existe déja avec la même url le meme code depuis 2h
+        dump(count($this->rapportRepository->getLastSameRapport($rapport,new \DateTime('2 hours ago'))) > 0);
         if(count($this->rapportRepository->getLastSameRapport($rapport,new \DateTime('2 hours ago'))) > 0){
             return;
         }

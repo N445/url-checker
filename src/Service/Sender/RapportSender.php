@@ -48,17 +48,34 @@ class RapportSender
 
     public function sendRapport()
     {
+<<<<<<< HEAD
         $this->eventDispatcher->dispatch(new RapportSendEvent($this->rapportsToSend), RapportSendEvent::NAME);
         $discord = (new DiscordSender())->addIdToken('721354431270092871', 'rUK71iWIExWutA6-S2iWVPfR9feqQroDauZdQ71aNtGJzk4U0-4uPNaSTduzF8-xXyDJ');
         $embed   = (new Embed())->setTitle('Liste des erreurs')->setDescription('rien');
         foreach ($this->rapportsToSend as $rapport) {
+=======
+        $discord         = (new DiscordSender())->addIdToken('721354431270092871', 'rUK71iWIExWutA6-S2iWVPfR9feqQroDauZdQ71aNtGJzk4U0-4uPNaSTduzF8-xXyDJ');
+        $chunkedRapports = array_chunk($this->rapportsToSend, ceil(count($this->rapportsToSend) / 25));
+
+        $embeds  = array_map(function ($chunkedRapport) {
+            $embed = (new Embed())->setTitle('Liste des erreurs')->setDescription('rien');
+            $this->addFieldToEmbed($chunkedRapport, $embed);
+            return $embed;
+        }, $chunkedRapports);
+
+        $message = (new Message())->setUsername('URL Checker')->setEmbeds($embeds);
+        $discord->send($message);
+    }
+
+    private function addFieldToEmbed($chunkedRapport, Embed &$embed)
+    {
+        foreach ($chunkedRapport as $rapport) {
+>>>>>>> a5c639ddb07ce22ae49f3afc80ebb907d8135650
             $field = (new Field())
                 ->setName($rapport->getUrl()->getSite()->getDomain() . $rapport->getUrl()->getUrl())
                 ->setValue(ErrorLevel::getErrorCodeLabel($rapport->getErrorCode()))
             ;
             $embed->addField($field);
         }
-        $message = (new Message())->setUsername('URL Checker')->addEmbed($embed);
-        $discord->send($message);
     }
 }

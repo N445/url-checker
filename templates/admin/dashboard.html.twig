@@ -2,4 +2,11 @@
 
 {% block body %}
     <h1>URL Checker</h1>
+    <h2>Import</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">
+        Envoyer
+    </button>
+    {{ form_end(form) }}
 {% endblock %}
