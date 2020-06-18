@@ -15,4 +15,5 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     EightPoints\Bundle\GuzzleBundle\EightPointsGuzzleBundle::class => ['all' => true],
     N445\EasyDiscord\N445EasyDiscordBundle::class => ['all' => true],
+    FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
 ];

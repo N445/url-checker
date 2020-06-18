@@ -56,6 +56,7 @@ class UrlChecker
             try {
                 $one      = microtime(1);
                 $response = $client->get($url->getUrl());
+//                $response = $client->getAsync($url->getUrl());
                 $two      = microtime(1);
                 $this->rapportCreator->create($url, $response, $two - $one);
             } catch (GuzzleException $e) {
