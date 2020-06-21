@@ -7,7 +7,6 @@ use App\Entity\Site;
 use App\Entity\Url;
 use App\Utils\Rapport\ErrorLevel;
 use N445\EasyDiscord\Model\Embed;
-use N445\EasyDiscord\Model\Field;
 use N445\EasyDiscord\Model\Message;
 use N445\EasyDiscord\Service\DiscordSender as N445DiscordSender;
 

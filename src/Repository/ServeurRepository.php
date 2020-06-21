@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Serveur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,36 @@ class ServeurRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Serveur::class);
+    }
+
+    /**
+     * @return Serveur[]
+     */
+    public function getServers()
+    {
+        return $this->createQueryBuilder('s')
+                    ->addSelect('sites')
+                    ->leftJoin('s.sites', 'sites')
+                    ->getQuery()
+                    ->getResult()
+            ;
+    }
+
+    /**
+     * @param int $id
+     * @return Serveur|null
+     * @throws NonUniqueResultException
+     */
+    public function getServer(int $id)
+    {
+        return $this->createQueryBuilder('s')
+                    ->addSelect('sites')
+                    ->leftJoin('s.sites', 'sites')
+                    ->where('s.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+            ;
     }
 
     // /**

@@ -25,7 +25,7 @@ class SiteRepository extends ServiceEntityRepository
      * @return Site|null
      * @throws NonUniqueResultException
      */
-    public function getSiteById(int $id)
+    public function getSite(int $id)
     {
         return $this->createQueryBuilder('s')
                     ->addSelect('serveur', 'urls')
@@ -41,7 +41,7 @@ class SiteRepository extends ServiceEntityRepository
     /**
      * @return Site[]
      */
-    public function getAll()
+    public function getSites()
     {
         return $this->createQueryBuilder('s')
                     ->addSelect('serveur', 'urls')

@@ -6,6 +6,7 @@ use App\Entity\Serveur;
 use App\Form\ServeurType;
 use App\Repository\ServeurRepository;
 use App\Utils\NavPageGroup;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,18 +20,41 @@ class ServeurController extends AbstractController
     const PAGE_NAME = 'serveur';
 
     /**
+     * @var ServeurRepository
+     */
+    private $serveurRepository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * ServeurController constructor.
+     * @param ServeurRepository      $serveurRepository
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(ServeurRepository $serveurRepository, EntityManagerInterface $em)
+    {
+        $this->serveurRepository = $serveurRepository;
+        $this->em                = $em;
+    }
+
+    /**
      * @Route("/", name="SERVEUR_INDEX", methods={"GET"})
      */
-    public function index(ServeurRepository $serveurRepository): Response
+    public function index(): Response
     {
         return $this->render('serveur/index.html.twig', [
-            'serveurs'               => $serveurRepository->findAll(),
+            'serveurs'               => $this->serveurRepository->getServers(),
             NavPageGroup::PAGE_GROUP => self::PAGE_NAME,
         ]);
     }
 
     /**
      * @Route("/new", name="SERVEUR_NEW", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -39,9 +63,8 @@ class ServeurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($serveur);
-            $entityManager->flush();
+            $this->em->persist($serveur);
+            $this->em->flush();
 
             return $this->redirectToRoute('SERVEUR_INDEX');
         }
@@ -55,25 +78,31 @@ class ServeurController extends AbstractController
 
     /**
      * @Route("/{id}", name="SERVEUR_SHOW", methods={"GET"})
+     * @param int $id
+     * @return Response
      */
-    public function show(Serveur $serveur): Response
+    public function show(int $id): Response
     {
         return $this->render('serveur/show.html.twig', [
-            'serveur'                => $serveur,
+            'serveur'                => $this->serveurRepository->getServer($id),
             NavPageGroup::PAGE_GROUP => self::PAGE_NAME,
         ]);
     }
 
     /**
      * @Route("/edit/{id}", name="SERVEUR_EDIT", methods={"GET","POST"})
+     * @param Request $request
+     * @param int     $id
+     * @return Response
      */
-    public function edit(Request $request, Serveur $serveur): Response
+    public function edit(Request $request, int $id): Response
     {
-        $form = $this->createForm(ServeurType::class, $serveur);
+        $serveur = $this->serveurRepository->getServer($id);
+        $form    = $this->createForm(ServeurType::class, $serveur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->em->flush();
 
             return $this->redirectToRoute('SERVEUR_INDEX');
         }
@@ -87,13 +116,16 @@ class ServeurController extends AbstractController
 
     /**
      * @Route("/{id}", name="SERVEUR_DELETE", methods={"DELETE"})
+     * @param Request $request
+     * @param int     $id
+     * @return Response
      */
-    public function delete(Request $request, Serveur $serveur): Response
+    public function delete(Request $request, int $id): Response
     {
+        $serveur = $this->serveurRepository->getServer($id);
         if ($this->isCsrfTokenValid('delete' . $serveur->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($serveur);
-            $entityManager->flush();
+            $this->em->remove($serveur);
+            $this->em->flush();
         }
 
         return $this->redirectToRoute('SERVEUR_INDEX');

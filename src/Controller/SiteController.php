@@ -47,7 +47,7 @@ class SiteController extends AbstractController
     public function index(): Response
     {
         return $this->render('site/index.html.twig', [
-            'sites'                  => $this->siteRepository->findAll(),
+            'sites'                  => $this->siteRepository->getSites(),
             NavPageGroup::PAGE_GROUP => self::PAGE_NAME,
         ]);
     }
@@ -98,7 +98,7 @@ class SiteController extends AbstractController
      */
     public function edit(Request $request, int $id, UrlHelper $urlHelper): Response
     {
-        $site = $this->siteRepository->getSiteById($id);
+        $site = $this->siteRepository->getSite($id);
         $form = $this->createForm(SiteType::class, $site);
         $urlHelper->setOldUrls($site);
         $form->handleRequest($request);
@@ -107,8 +107,7 @@ class SiteController extends AbstractController
             $urlHelper->checkData($site);
             $this->em->persist($site);
             $this->em->flush();
-
-//            return $this->redirectToRoute('SITE_INDEX');
+            return $this->redirectToRoute('SITE_INDEX');
         }
 
         return $this->render('site/edit.html.twig', [
@@ -126,7 +125,7 @@ class SiteController extends AbstractController
      */
     public function delete(Request $request, int $id): Response
     {
-        $site = $this->siteRepository->getSiteById($id);
+        $site = $this->siteRepository->getSite($id);
         if ($this->isCsrfTokenValid('delete' . $site->getId(), $request->request->get('_token'))) {
             $this->em->remove($site);
             $this->em->flush();

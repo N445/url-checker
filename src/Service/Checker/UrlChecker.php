@@ -36,7 +36,7 @@ class UrlChecker
         RapportCreator $rapportCreator
     )
     {
-        $this->sites          = $siteRepository->getAll();
+        $this->sites          = $siteRepository->getSites();
         $this->rapportCreator = $rapportCreator;
     }
 
