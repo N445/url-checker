@@ -2,11 +2,21 @@
 
 {% block body %}
     <h1>URL Checker</h1>
-    <h2>Import</h2>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">
-        Envoyer
-    </button>
-    {{ form_end(form) }}
+    <div class="row">
+        <div class="col">
+            <h2>Import</h2>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">
+                Envoyer
+            </button>
+            {{ form_end(form) }}
+        </div>
+        <div class="col">
+            <h2>Export</h2>
+            <a href="{{ path('ADMIN_EXPORT') }}" class="btn btn-primary">
+                Exporter
+            </a>
+        </div>
+    </div>
 {% endblock %}
