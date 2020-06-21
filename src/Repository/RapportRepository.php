@@ -47,7 +47,7 @@ class RapportRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
                     ->addSelect('site', 'url')
-                    ->andWhere('r.isSend = false')
+//                    ->andWhere('r.isSend = false')
                     ->leftJoin('r.url', 'url')
                     ->leftJoin('url.site', 'site')
                     ->getQuery()

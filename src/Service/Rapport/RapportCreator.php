@@ -35,7 +35,7 @@ class RapportCreator
     private $responseTime;
 
     /**
-     * @var GuzzleException|null
+     * @var ClientException|ConnectException|GuzzleException|null
      */
     private $guzzleException;
 
@@ -59,7 +59,7 @@ class RapportCreator
         $this->em                = $em;
     }
 
-    public function create(Url $url, Response $response = null, float $responseTime = null, GuzzleException $guzzleException = null)
+    public function create(Url $url, Response $response = null, float $responseTime = null, $guzzleException = null)
     {
         $this->url             = $url;
         $this->response        = $response;
@@ -77,7 +77,6 @@ class RapportCreator
         ;
 
         // vérifie si un rapport existe déja avec la même url le meme code depuis 2h
-        dump(count($this->rapportRepository->getLastSameRapport($rapport,new \DateTime('2 hours ago'))) > 0);
         if(count($this->rapportRepository->getLastSameRapport($rapport,new \DateTime('2 hours ago'))) > 0){
             return;
         }

@@ -4,21 +4,10 @@ namespace App\Service\Sender;
 
 use App\Event\RapportSendEvent;
 use App\Repository\RapportRepository;
-use App\Utils\Rapport\ErrorLevel;
-use Doctrine\ORM\EntityManagerInterface;
-use N445\EasyDiscord\Model\Embed;
-use N445\EasyDiscord\Model\Field;
-use N445\EasyDiscord\Model\Message;
-use N445\EasyDiscord\Service\DiscordSender;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RapportSender
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
     /**
      * @var Rapport[]
      */
@@ -31,17 +20,14 @@ class RapportSender
 
     /**
      * RapportSender constructor.
-     * @param EntityManagerInterface   $em
      * @param RapportRepository        $rapportRepository
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
-        EntityManagerInterface $em,
         RapportRepository $rapportRepository,
         EventDispatcherInterface $eventDispatcher
     )
     {
-        $this->em              = $em;
         $this->rapportsToSend  = $rapportRepository->getUnsendRapport();
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -49,27 +35,5 @@ class RapportSender
     public function sendRapport()
     {
         $this->eventDispatcher->dispatch(new RapportSendEvent($this->rapportsToSend), RapportSendEvent::NAME);
-        $discord         = (new DiscordSender())->addIdToken('721354431270092871', 'rUK71iWIExWutA6-S2iWVPfR9feqQroDauZdQ71aNtGJzk4U0-4uPNaSTduzF8-xXyDJ');
-        $chunkedRapports = array_chunk($this->rapportsToSend, ceil(count($this->rapportsToSend) / 25));
-
-        $embeds  = array_map(function ($chunkedRapport) {
-            $embed = (new Embed())->setTitle('Liste des erreurs')->setDescription('rien');
-            $this->addFieldToEmbed($chunkedRapport, $embed);
-            return $embed;
-        }, $chunkedRapports);
-
-        $message = (new Message())->setUsername('URL Checker')->setEmbeds($embeds);
-        $discord->send($message);
-    }
-
-    private function addFieldToEmbed($chunkedRapport, Embed &$embed)
-    {
-        foreach ($chunkedRapport as $rapport) {
-            $field = (new Field())
-                ->setName($rapport->getUrl()->getSite()->getDomain() . $rapport->getUrl()->getUrl())
-                ->setValue(ErrorLevel::getErrorCodeLabel($rapport->getErrorCode()))
-            ;
-            $embed->addField($field);
-        }
     }
 }

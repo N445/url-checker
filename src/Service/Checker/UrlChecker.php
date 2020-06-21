@@ -6,7 +6,9 @@ use App\Entity\Site;
 use App\Repository\SiteRepository;
 use App\Service\Rapport\RapportCreator;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
+use function GuzzleHttp\Promise\unwrap;
 
 class UrlChecker
 {
@@ -19,6 +21,11 @@ class UrlChecker
      * @var RapportCreator
      */
     private $rapportCreator;
+
+    /**
+     * @var array
+     */
+    private $promise = [];
 
     /**
      * UrlChecker constructor.
@@ -43,25 +50,25 @@ class UrlChecker
                     'http_errors' => false,
                 ],
             ]);
-//            dump($client);
-//            die;
-
             $this->checkUrl($client, $site);
         }
+        $results = unwrap($this->promises);
+
+//        dump($results);
     }
 
     private function checkUrl(Client $client, Site $site)
     {
-        foreach ($site->getUrls() as $url) {
-            try {
-                $one      = microtime(1);
-                $response = $client->get($url->getUrl());
-//                $response = $client->getAsync($url->getUrl());
-                $two      = microtime(1);
-                $this->rapportCreator->create($url, $response, $two - $one);
-            } catch (GuzzleException $e) {
-                $this->rapportCreator->create($url, null, 0, $e);
-            }
+        foreach ($site->getUrls() as $key => $url) {
+            $this->promises[] = ($client->getAsync($url->getUrl()))
+                ->then(
+                    function (Response $response) use($url) {
+                        $this->rapportCreator->create($url, $response, 0);
+                    },
+                    function ($exception) use($url) {
+                        $this->rapportCreator->create($url, null, 0, $exception);
+                    }
+                );
         }
     }
 }

@@ -51,6 +51,6 @@ class RapportSubscriber implements EventSubscriberInterface
             return;
         }
         $this->discordSender->send($event->getRapports());
-        $this->rapportUpdater->update($event->getRapports());
+//        $this->rapportUpdater->update($event->getRapports());
     }
 }
