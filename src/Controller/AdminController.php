@@ -50,11 +50,12 @@ class AdminController extends AbstractController
     {
         $writer = Writer::createFromFileObject(new \SplTempFileObject());
 
-        $writer->insertOne([Importator::SERVEUR, Importator::SITE, Importator::URL, Importator::CODE]);
+        $writer->insertOne([Importator::SERVEUR, Importator::PROTOCOL, Importator::SITE, Importator::URL, Importator::CODE]);
 
         $writer->insertAll(array_map(function (Url $url) {
             return [
                 $url->getSite()->getServeur()->getIp(),
+                $url->getSite()->getProtocol(),
                 $url->getSite()->getDomain(),
                 $url->getUrl(),
                 $url->getCode(),

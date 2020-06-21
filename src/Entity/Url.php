@@ -35,7 +35,7 @@ class Url
     private $site;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rapport::class, mappedBy="url")
+     * @ORM\OneToMany(targetEntity=Rapport::class, mappedBy="url", cascade={"remove"})
      */
     private $rapports;
 

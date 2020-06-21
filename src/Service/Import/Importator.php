@@ -9,16 +9,18 @@ use App\Model\Import;
 use App\Repository\ServeurRepository;
 use App\Repository\SiteRepository;
 use App\Repository\UrlRepository;
+use App\Utils\SiteProtocoles;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
 class Importator
 {
-    const SERVEUR = 'serveur';
-    const SITE    = 'site';
-    const URL     = 'url';
-    const CODE    = 'code';
+    const SERVEUR  = 'serveur';
+    const PROTOCOL = 'protocol';
+    const SITE     = 'site';
+    const URL      = 'url';
+    const CODE     = 'code';
 
     /**
      * @var ServeurRepository
@@ -94,10 +96,6 @@ class Importator
             $serveur = $this->getServeur($record);
             $site    = $this->getSite($record, $serveur);
             $this->createUrl($record, $site);
-
-            dump($this->serveurs);
-            dump($this->sites);
-
             if ($i % 200 == 0) {
                 $this->em->flush();
             }
@@ -149,7 +147,7 @@ class Importator
             return $this->sites[$domain];
         }
         $site                 = (new Site())
-            ->setName($domain)
+            ->setProtocol($record[self::PROTOCOL] ?? SiteProtocoles::HTTP)
             ->setDomain($domain)
             ->setServeur($serveur)
         ;
@@ -164,6 +162,9 @@ class Importator
      */
     private function createUrl($record, Site $site)
     {
+        if ('/' === $record[self::URL]) {
+            return;
+        }
         $url = (new Url())
             ->setUrl($record[self::URL])
             ->setSite($site)

@@ -31,8 +31,8 @@ class DiscordSender
             /** @var Url $url */
             $url = $rapport->getUrl();
             /** @var Site $site */
-            $site                        = $url->getSite();
-            $sites[$site->getDomain()][] = $rapport;
+            $site                                                                  = $url->getSite();
+            $sites[sprintf('%s://%s', $site->getProtocol(), $site->getDomain())][] = $rapport;
         }
 
         $texts = [];
@@ -41,16 +41,10 @@ class DiscordSender
                 return $rapport->getErrorCode();
                 return ErrorLevel::getErrorCodeLabel($rapport->getErrorCode());
             }, $toto));
-            $texts[]     = sprintf("http://%s %d urls (%s)", $domaine, count($toto), $rapportText);
+            $texts[]     = sprintf("%s %d urls (%s)", $domaine, count($toto), $rapportText);
         }
 
         $embed = (new Embed())->setTitle('Liste des erreurs')->setDescription(implode("\n", $texts));
-
-//        $embeds = array_map(function ($chunkedRapport) {
-//            $embed = (new Embed())->setTitle('Liste des erreurs')->setDescription('rien');
-//            $this->addFieldToEmbed($chunkedRapport, $embed);
-//            return $embed;
-//        }, $chunkedRapports);
 
         $message = (new Message())
             ->setUsername('URL Checker')
@@ -68,20 +62,5 @@ class DiscordSender
         $text .= sprintf("%s => %s\n", ErrorLevel::BAD_CODE_CODE, ErrorLevel::BAD_CODE_TEXT);
         $text .= sprintf("%s => %s\n", ErrorLevel::NO_RESPONSE_CODE, ErrorLevel::NO_RESPONSE_TEXT);
         return $text;
-    }
-
-    /**
-     * @param       $chunkedRapport
-     * @param Embed $embed
-     */
-    private function addFieldToEmbed($chunkedRapport, Embed &$embed)
-    {
-        foreach ($chunkedRapport as $rapport) {
-            $field = (new Field())
-                ->setName($rapport->getUrl()->getSite()->getDomain() . $rapport->getUrl()->getUrl())
-                ->setValue(ErrorLevel::getErrorCodeLabel($rapport->getErrorCode()))
-            ;
-            $embed->addField($field);
-        }
     }
 }

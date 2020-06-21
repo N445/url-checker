@@ -6,7 +6,6 @@ use App\Entity\Site;
 use App\Repository\SiteRepository;
 use App\Service\Rapport\RapportCreator;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Promise\unwrap;
 
@@ -45,7 +44,7 @@ class UrlChecker
     {
         foreach ($this->sites as $site) {
             $client = new Client([
-                'base_uri' => sprintf('http://%s', $site->getDomain()),
+                'base_uri' => sprintf('%s://%s', $site->getProtocol(), $site->getDomain()),
                 'options'  => [
                     'http_errors' => false,
                 ],

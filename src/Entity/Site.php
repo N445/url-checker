@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SiteRepository;
+use App\Utils\SiteProtocoles;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,11 +20,6 @@ class Site
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -46,6 +42,11 @@ class Site
     private $createdAt;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $protocol;
+
+    /**
      * Site constructor.
      */
     public function __construct()
@@ -53,6 +54,7 @@ class Site
         $this->urls      = new ArrayCollection();
         $this->createdAt = new \DateTime("NOW");
         $this->addUrl((new Url())->setUrl('/'));
+        $this->setProtocol(SiteProtocoles::HTTP);
     }
 
     /**
@@ -61,25 +63,6 @@ class Site
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return $this
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -174,6 +157,18 @@ class Site
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getProtocol(): ?string
+    {
+        return $this->protocol;
+    }
+
+    public function setProtocol(string $protocol): self
+    {
+        $this->protocol = $protocol;
 
         return $this;
     }

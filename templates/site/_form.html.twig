@@ -21,10 +21,19 @@
 
 <div class="mb-5">
     {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.domain) }}
-    {{ form_row(form.serveur) }}
-
+    <div class="d-flex">
+        <div class="mr-3">{{ form_row(form.serveur) }}</div>
+        <div>
+            <label>Site</label>
+            <div class="input-group mb-3">
+                {{ form_widget(form.protocol) }}
+                <div class="input-group-append">
+                    <label class="input-group-text" for="inputGroupSelect02">://</label>
+                </div>
+                {{ form_widget(form.domain) }}
+            </div>
+        </div>
+    </div>
     <div class="urls"
          data-prototype="{{ formMacros.actionRow(form.urls.vars.prototype)|e('html_attr') }}">
         {% for action in form.urls %}
