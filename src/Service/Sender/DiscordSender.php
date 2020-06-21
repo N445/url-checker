@@ -21,9 +21,8 @@ class DiscordSender
         if (!count($rapports)) {
             return;
         }
-//        $rapports        = array_slice($rapports, 0, 10);
-        $discord = (new N445DiscordSender())->addIdToken('721354431270092871', 'rUK71iWIExWutA6-S2iWVPfR9feqQroDauZdQ71aNtGJzk4U0-4uPNaSTduzF8-xXyDJ');
-//        $chunkedRapports = array_chunk($rapports, ceil(count($rapports) / 20));
+
+        $discord = (new N445DiscordSender())->addIdToken($_ENV['DISCORD_ID'], $_ENV['DISCORD_TOKEN']);
 
         $sites = [];
         /** @var Rapport $rapport */
