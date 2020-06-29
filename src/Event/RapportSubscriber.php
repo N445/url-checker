@@ -47,10 +47,11 @@ class RapportSubscriber implements EventSubscriberInterface
      */
     public function rapportSend(RapportSendEvent $event)
     {
-        if (count($event->getRapports()) === 0) {
+        $rapports = $event->getRapports();
+        if (count($rapports) === 0) {
             return;
         }
-        $this->discordSender->send($event->getRapports());
-        $this->rapportUpdater->update($event->getRapports());
+        $this->discordSender->send($rapports);
+        $this->rapportUpdater->update($rapports);
     }
 }

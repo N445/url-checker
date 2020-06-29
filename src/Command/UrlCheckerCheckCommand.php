@@ -45,10 +45,8 @@ class UrlCheckerCheckCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        dump((new \DateTime("NOW"))->format('H:i:s'));
         $this->urlChecker->run();
         $this->rapportSender->sendRapport();
-        dump((new \DateTime("NOW"))->format('H:i:s'));
 
         $io->success('Ok.');
 

@@ -17,10 +17,6 @@ class DiscordSender
      */
     public function send(array $rapports)
     {
-        if (!count($rapports)) {
-            return;
-        }
-
         $discord = (new N445DiscordSender())->addIdToken($_ENV['DISCORD_ID'], $_ENV['DISCORD_TOKEN']);
 
         $sites = [];
