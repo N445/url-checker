@@ -9,14 +9,15 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class RapportSender
 {
     /**
-     * @var Rapport[]
+     * @var RapportRepository
      */
-    private $rapportsToSend;
+    private $rapportRepository;
 
     /**
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
+
 
     /**
      * RapportSender constructor.
@@ -28,12 +29,13 @@ class RapportSender
         EventDispatcherInterface $eventDispatcher
     )
     {
-        $this->rapportsToSend  = $rapportRepository->getUnsendRapport();
-        $this->eventDispatcher = $eventDispatcher;
+
+        $this->rapportRepository = $rapportRepository;
+        $this->eventDispatcher   = $eventDispatcher;
     }
 
     public function sendRapport()
     {
-        $this->eventDispatcher->dispatch(new RapportSendEvent($this->rapportsToSend), RapportSendEvent::NAME);
+        $this->eventDispatcher->dispatch(new RapportSendEvent($this->rapportRepository->getUnsendRapport()), RapportSendEvent::NAME);
     }
 }

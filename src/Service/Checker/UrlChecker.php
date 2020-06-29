@@ -52,8 +52,6 @@ class UrlChecker
             $this->checkUrl($client, $site);
         }
         $results = unwrap($this->promises);
-
-//        dump($results);
     }
 
     private function checkUrl(Client $client, Site $site)
