@@ -7,7 +7,10 @@ use App\Entity\Url;
 use App\Repository\RapportRepository;
 use App\Utils\Rapport\ErrorLevel;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 
 class RapportCreator
@@ -35,7 +38,7 @@ class RapportCreator
     private $responseTime;
 
     /**
-     * @var ClientException|ConnectException|GuzzleException|null
+     * @var ClientException|ConnectException|GuzzleException|RequestException|null
      */
     private $guzzleException;
 
@@ -65,14 +68,19 @@ class RapportCreator
         $this->response        = $response;
         $this->responseTime    = $responseTime;
         $this->guzzleException = $guzzleException;
+
+        // si il n'y a pas d'erreur
         if (($code = $this->getErrorCode()) === ErrorLevel::NO_ERROR_CODE) {
             return;
         }
 
+        $message = ErrorLevel::getErrorMessage($code);
+
         $rapport = (new Rapport())
             ->setUrl($url)
             ->setErrorCode($code)
-            ->setErrorMessage(ErrorLevel::getErrorMessage($code))
+            ->setMessage($message[ErrorLevel::MESSAGE])
+            ->setErrorMessage($message[ErrorLevel::LABEL])
             ->setResponseTime($this->responseTime)
         ;
 
@@ -88,7 +96,7 @@ class RapportCreator
     private function getErrorCode()
     {
         if ($this->guzzleException) {
-            return ErrorLevel::NO_RESPONSE_CODE;
+            return $this->getGuzzleExceptionCode();
         }
         if ($this->url->getCode() != $this->response->getStatusCode()) {
             return ErrorLevel::BAD_CODE_CODE;
@@ -97,5 +105,13 @@ class RapportCreator
             return ErrorLevel::RESPONSE_TIME_CODE;
         }
         return ErrorLevel::NO_ERROR_CODE;
+    }
+
+    private function getGuzzleExceptionCode()
+    {
+        if (60 === $this->guzzleException->getHandlerContext()['errno']) {
+            return ErrorLevel::CERTIFICATE_CODE;
+        }
+        return ErrorLevel::NO_RESPONSE_CODE;
     }
 }

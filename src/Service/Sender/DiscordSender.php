@@ -55,6 +55,7 @@ class DiscordSender
         $text .= sprintf("%s => %s\n", ErrorLevel::RESPONSE_TIME_CODE, ErrorLevel::RESPONSE_TIME_TEXT);
         $text .= sprintf("%s => %s\n", ErrorLevel::BAD_CODE_CODE, ErrorLevel::BAD_CODE_TEXT);
         $text .= sprintf("%s => %s\n", ErrorLevel::NO_RESPONSE_CODE, ErrorLevel::NO_RESPONSE_TEXT);
+        $text .= sprintf("%s => %s\n", ErrorLevel::CERTIFICATE_CODE, ErrorLevel::CERTIFICATE_TEXT);
         return $text;
     }
 }

@@ -7,6 +7,7 @@ use App\Form\ImportType;
 use App\Model\Import;
 use App\Repository\UrlRepository;
 use App\Service\Import\Importator;
+use GuzzleHttp\Client;
 use League\Csv\Writer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,6 +64,17 @@ class AdminController extends AbstractController
         }, $urlRepository->findAll()));
         $writer->output('urls.csv');
         die;
+    }
+
+    /**
+     * Création de la route "test"
+     * @Route("/test", name="TEST", methods={"GET"})
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function test(Request $request)
+    {
+        return $this->render('admin/test.html.twig', []);
     }
 
 
