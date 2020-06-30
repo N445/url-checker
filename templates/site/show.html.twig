@@ -12,6 +12,10 @@
                 <td>{{ site.id }}</td>
             </tr>
             <tr>
+                <th>Protocol</th>
+                <td>{{ site.protocol }}</td>
+            </tr>
+            <tr>
                 <th>Domaine</th>
                 <td>{{ site.domain }}</td>
             </tr>
@@ -20,7 +24,7 @@
                 <td>
                     <ul>
                         {% for url in site.urls %}
-                            <li>{{ url.url }} ({{ url.code }})</li>
+                            <li><a href="{{ site.protocol }}://{{ site.domain }}{{ url.url }}" target="_blank">{{ url.url }}</a> <span class="badge badge-dark">{{ url.code }}</span></li>
                         {% endfor %}
                     </ul>
                 </td>

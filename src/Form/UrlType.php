@@ -21,6 +21,7 @@ class UrlType extends AbstractType
                 'label'   => 'Code de la réponse',
                 'choices' => [
                     200 => 200,
+                    301 => 301,
                     302 => 302,
                 ],
             ])
