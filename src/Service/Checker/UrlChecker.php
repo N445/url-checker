@@ -7,6 +7,7 @@ use App\Repository\SiteRepository;
 use App\Service\Rapport\RapportCreator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\RequestOptions;
 use function GuzzleHttp\Promise\unwrap;
 
 class UrlChecker
@@ -24,7 +25,13 @@ class UrlChecker
     /**
      * @var array
      */
-    private $promise = [];
+    private $headers;
+
+    /**
+     * @var array
+     */
+    private $promises = [];
+
 
     /**
      * UrlChecker constructor.
@@ -42,6 +49,9 @@ class UrlChecker
 
     public function run()
     {
+        $this->headers = [
+            'User-Agent' => 'Url Checker/1.0',
+        ];
         foreach ($this->sites as $site) {
             $client = new Client([
                 'base_uri' => sprintf('%s://%s', $site->getProtocol(), $site->getDomain()),
@@ -57,15 +67,18 @@ class UrlChecker
     private function checkUrl(Client $client, Site $site)
     {
         foreach ($site->getUrls() as $key => $url) {
-            $this->promises[] = ($client->getAsync($url->getUrl()))
-                ->then(
-                    function (Response $response) use($url) {
-                        $this->rapportCreator->create($url, $response, 0);
-                    },
-                    function ($exception) use($url) {
-                        $this->rapportCreator->create($url, null, 0, $exception);
-                    }
-                );
+            $this->promises[] = ($client->getAsync(
+                $url->getUrl(), [
+                    RequestOptions::HEADERS => $this->headers,
+                ]
+            ))->then(
+                function (Response $response) use ($url) {
+                    $this->rapportCreator->create($url, $response, 0);
+                },
+                function ($exception) use ($url) {
+                    $this->rapportCreator->create($url, null, 0, $exception);
+                }
+            );
         }
     }
 }
